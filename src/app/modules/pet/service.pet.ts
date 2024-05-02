@@ -1,10 +1,3 @@
-// import { Admin, Prisma, UserStatus } from "@prisma/client";
-// import { paginationHelper } from "../../../helpers/paginationHelper";
-// import { adminSearchAbleFields } from "./constant.admin";
-// import prisma from "../../../shared/prisma";
-// import { TAdminFilterRequest } from "./interface.admin";
-// import { TPaginationOptions } from "../../interface/pagination";
-
 import { Prisma } from "@prisma/client";
 import { paginationHelper } from "../../../helpers/paginationHelper";
 import prisma from "../../../shared/prisma";
