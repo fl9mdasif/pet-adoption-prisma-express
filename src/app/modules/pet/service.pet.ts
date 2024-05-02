@@ -5,71 +5,89 @@
 // import { TAdminFilterRequest } from "./interface.admin";
 // import { TPaginationOptions } from "../../interface/pagination";
 
-// const getAllFromDB = async (
-//   params: TAdminFilterRequest,
-//   options: TPaginationOptions
-// ) => {
-//   const { page, limit, skip } = paginationHelper.calculatePagination(options);
-//   const { searchTerm, ...filterData } = params;
+import { Prisma } from "@prisma/client";
+import { paginationHelper } from "../../../helpers/paginationHelper";
+import prisma from "../../../shared/prisma";
+import { TPaginationOptions } from "../../interface/pagination";
+import { TPetFilterableFields } from "./interface.pet";
+import { petSearchAbleFields } from "./constant.pet";
 
-//   const andConditions: Prisma.AdminWhereInput[] = [];
+const createPet = async (data: any) => {
+  //   console.log({ data });
 
-//   //console.log(filterData);
-//   if (params.searchTerm) {
-//     andConditions.push({
-//       OR: adminSearchAbleFields.map((field) => ({
-//         [field]: {
-//           contains: params.searchTerm,
-//           mode: "insensitive",
-//         },
-//       })),
-//     });
-//   }
+  const createPet = await prisma.pet.create({
+    data,
+  });
 
-//   if (Object.keys(filterData).length > 0) {
-//     andConditions.push({
-//       AND: Object.keys(filterData).map((key) => ({
-//         [key]: {
-//           equals: (filterData as any)[key],
-//         },
-//       })),
-//     });
-//   }
+  return createPet;
+};
 
-//   andConditions.push({
-//     isDeleted: false,
-//   });
+const getAllFromDB = async (
+  params: TPetFilterableFields,
+  options: TPaginationOptions
+) => {
+  const { page, limit, skip } = paginationHelper.calculatePagination(options);
+  const { searchTerm, ...filterData } = params;
 
-//   //console.dir(andConditions, { depth: 'infinity' })
-//   const whereConditions: Prisma.AdminWhereInput = { AND: andConditions };
+  const andConditions: Prisma.PetWhereInput[] = [];
 
-//   const result = await prisma.admin.findMany({
-//     where: whereConditions,
-//     skip,
-//     take: limit,
-//     orderBy:
-//       options.sortBy && options.sortOrder
-//         ? {
-//             [options.sortBy]: options.sortOrder,
-//           }
-//         : {
-//             createdAt: "desc",
-//           },
-//   });
+  //console.log(filterData);
+  if (params.searchTerm) {
+    andConditions.push({
+      OR: petSearchAbleFields.map((field) => ({
+        [field]: {
+          contains: params.searchTerm,
+          mode: "insensitive",
+        },
+      })),
+    });
+  }
 
-//   const total = await prisma.admin.count({
-//     where: whereConditions,
-//   });
+  if (Object.keys(filterData).length > 0) {
+    andConditions.push({
+      AND: Object.keys(filterData).map((key) => ({
+        [key]: {
+          equals: (filterData as any)[key],
+          mode: "insensitive",
+        },
+      })),
+    });
+  }
 
-//   return {
-//     meta: {
-//       page,
-//       limit,
-//       total,
-//     },
-//     data: result,
-//   };
-// };
+  //   andConditions.push({
+  //     isDeleted: false,
+  //   });
+
+  //console.dir(andConditions, { depth: 'infinity' })
+  const whereConditions: Prisma.PetWhereInput = { AND: andConditions };
+
+  const result = await prisma.pet.findMany({
+    where: whereConditions,
+    skip,
+    take: limit,
+    orderBy:
+      options.sortBy && options.sortOrder
+        ? {
+            [options.sortBy]: options.sortOrder,
+          }
+        : {
+            createdAt: "desc",
+          },
+  });
+
+  const total = await prisma.pet.count({
+    where: whereConditions,
+  });
+
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+    },
+    data: result,
+  };
+};
 
 // const getByIdFromDB = async (id: string): Promise<Admin | null> => {
 //   await prisma.admin.findUniqueOrThrow({
@@ -170,10 +188,11 @@
 //   return result;
 // };
 
-// export const AdminService = {
-//   getAllFromDB,
-//   getByIdFromDB,
-//   updateIntoDB,
-//   deleteFromDB,
-//   softDeleteFromDB,
-// };
+export const PetService = {
+  createPet,
+  getAllFromDB,
+  //   getByIdFromDB,
+  //   updateIntoDB,
+  //   deleteFromDB,
+  //   softDeleteFromDB,
+};

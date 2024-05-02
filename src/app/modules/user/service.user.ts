@@ -1,34 +1,32 @@
-// import { PrismaClient, UserRole } from "@prisma/client";
-// import * as bcrypt from "bcrypt";
+import * as bcrypt from "bcrypt";
+import prisma from "../../../shared/prisma";
 
-// const prisma = new PrismaClient();
+const createUser = async (data: any) => {
+  // hashPassword
+  const hashPassword = await bcrypt.hash(data.password, 12);
 
-// const createAdmin = async (data: any) => {
-//   // hashPassword
-//   const hashPassword = await bcrypt.hash(data.password, 12);
-//   // console.log({ hashPassword });
+  const userData = {
+    name: data?.name,
+    email: data?.email,
+    password: hashPassword,
+  };
 
-//   const userData = {
-//     email: data?.admin?.email,
-//     password: hashPassword,
-//     role: UserRole.ADMIN,
-//   };
+  //   console.log({ userData });
 
-//   // const result = await prisma.$transaction(async (transactionClient) => {
-//   //   // create user
-//   //   const createUser = await transactionClient.user.create({
-//   //     data: userData,
-//   //   });
+  const createUser = await prisma.user.create({
+    data: userData,
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      createdAt: true,
+      updatedAt: true,
+    },
+  });
 
-//   //   // create admin
-//   //   const createAdmin = await transactionClient.admin.create({
-//   //     data: data.admin,
-//   //   });
-//   //   return createAdmin;
-//   // });
-//   return null;
-// };
+  return createUser;
+};
 
-// export const userService = {
-//   createAdmin,
-// };
+export const userService = {
+  createUser,
+};

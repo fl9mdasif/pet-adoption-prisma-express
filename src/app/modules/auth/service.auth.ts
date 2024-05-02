@@ -8,49 +8,47 @@
 // import httpStatus from "http-status";
 // import emailSender from "../../middlewares/emailSender";
 
-// const loginUser = async (payload: { email: string; password: string }) => {
-//   const userData = await prisma.user.findUniqueOrThrow({
-//     where: {
-//       email: payload.email,
-//       // status: UserStatus.ACTIVE,
-//     },
-//   });
+import { Secret } from "jsonwebtoken";
+import config from "../../../config";
+import { jwtHelpers } from "../../../helpers/jwtHelpers";
+import prisma from "../../../shared/prisma";
+import * as bcrypt from "bcrypt";
 
-//   const isCorrectPassword: boolean = await bcrypt.compare(
-//     payload.password,
-//     userData.password
-//   );
+const loginUser = async (payload: { email: string; password: string }) => {
+  const userData = await prisma.user.findUniqueOrThrow({
+    where: {
+      email: payload.email,
+      // status: UserStatus.ACTIVE,
+    },
+  });
 
-//   if (!isCorrectPassword) {
-//     throw new Error("Password incorrect!");
-//   }
-//   const accessToken = jwtHelpers.generateToken(
-//     {
-//       email: userData.email,
-//       role: userData.role,
-//     },
-//     config.jwt.jwt_secret as Secret,
-//     config.jwt.expires_in as string
-//     // "30d"
-//   );
+  const isCorrectPassword: boolean = await bcrypt.compare(
+    payload.password,
+    userData.password
+  );
 
-//   const refreshToken = jwtHelpers.generateToken(
-//     {
-//       email: userData.email,
-//       role: userData.role,
-//     },
-//     config.jwt.refresh_token_secret as Secret,
+  if (!isCorrectPassword) {
+    throw new Error("Password incorrect!");
+  }
+  const accessToken = jwtHelpers.generateToken(
+    {
+      id: userData.id,
+      name: userData.name,
+      email: userData.email,
+    },
+    config.jwt.jwt_secret as Secret,
+    config.jwt.expires_in as string
+    // "30d"
+  );
+  const result = {
+    id: userData.id,
+    name: userData.name,
+    email: userData.email,
+    accessToken,
+  };
 
-//     // config.jwt.refresh_token_expires_in as string
-//     "30d"
-//   );
-
-//   return {
-//     accessToken,
-//     refreshToken,
-//     needPasswordChange: userData.needPasswordChange,
-//   };
-// };
+  return result;
+};
 
 // const refreshToken = async (token: string) => {
 //   let decodedData;
@@ -192,10 +190,10 @@
 //   });
 // };
 
-// export const AuthServices = {
-//   loginUser,
-//   refreshToken,
-//   changePassword,
-//   forgotPassword,
-//   resetPassword,
-// };
+export const AuthServices = {
+  loginUser,
+  //   refreshToken,
+  //   changePassword,
+  //   forgotPassword,
+  //   resetPassword,
+};

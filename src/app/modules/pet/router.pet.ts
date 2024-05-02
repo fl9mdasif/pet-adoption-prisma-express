@@ -1,19 +1,29 @@
-// import express from "express";
+import express from "express";
+import auth from "../../middlewares/auth";
+import { PetController } from "./controller.pet";
+import validateRequest from "../../middlewares/validateRequest";
+import { petValidationSchemas } from "./validation.pet";
 // import { AdminController } from "./controller.admin";
 // import validateRequest from "../../middlewares/validateRequest";
 // import { adminValidationSchemas } from "./validation.admin";
 // import auth from "../../middlewares/auth";
 // import { UserRole } from "@prisma/client";
 
-// const router = express.Router();
+const router = express.Router();
 
-// // router.get("/", AdminController.getAllFromDB);
+router.get("/", PetController.getAllFromDB);
 
-// // router.get(
-// //   "/:id",
-// //   auth(UserRole.SUPER_ADMIN, UserRole.ADMIN),
-// //   AdminController.getByIdFromDB
-// // );
+router.post(
+  "/",
+  //   auth("SUPER_ADMIN", "ADMIN"),
+  validateRequest(petValidationSchemas.createPetValidationSchema),
+  PetController.createPet
+);
+// router.get(
+//   "/:id",
+//   auth(UserRole.SUPER_ADMIN, UserRole.ADMIN),
+//   AdminController.getByIdFromDB
+// );
 
 // // router.patch(
 // //   "/:id",
@@ -34,4 +44,4 @@
 // //   AdminController.softDeleteFromDB
 // // );
 
-// export const AdminRoutes = router;
+export const petRoutes = router;

@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import httpStatus from "http-status";
 
 const globalErrorHandler = (
-  err: any,
+  err: { message: string },
   req: Request,
   res: Response,
   next: NextFunction
