@@ -7,7 +7,7 @@ import { userService } from "./service.user";
 const createUser = catchAsync(async (req: Request, res: Response) => {
   const result = await userService.createUser(req.body);
   sendResponse(res, {
-    statusCode: httpStatus.OK,
+    statusCode: httpStatus.CREATED,
     success: true,
     message: "Admin Created successfully!",
     data: result,

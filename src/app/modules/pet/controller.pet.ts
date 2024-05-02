@@ -1,11 +1,3 @@
-// import { NextFunction, Request, Response } from "express";
-// import pick from "../../../shared/pick";
-// import { adminFilterableFields } from "./constant.admin";
-// import { AdminService } from "./service.admin";
-// import sendResponse from "../../../shared/sendResponse";
-// import httpStatus from "http-status";
-// import catchAsync from "../../../shared/catchAsync";
-
 import { Request, Response } from "express";
 import catchAsync from "../../../shared/catchAsync";
 import { PetService } from "./service.pet";
@@ -38,18 +30,6 @@ const getAllFromDB = catchAsync(async (req, res, next) => {
   });
 });
 
-// const getByIdFromDB = catchAsync(async (req, res, next) => {
-//   const { id } = req.params;
-
-//   const result = await AdminService.getByIdFromDB(id);
-//   sendResponse(res, {
-//     statusCode: httpStatus.OK,
-//     success: true,
-//     message: "Admin data fetched by id!",
-//     data: result,
-//   });
-// });
-
 const updateIntoDB = catchAsync(async (req, res, next) => {
   const { id } = req.params;
 
@@ -57,7 +37,7 @@ const updateIntoDB = catchAsync(async (req, res, next) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "User profile updated successfully",
+    message: "Pet profile updated successfully",
     data: result,
   });
 });

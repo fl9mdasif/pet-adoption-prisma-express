@@ -6,8 +6,6 @@ import { TPetFilterableFields, TPets } from "./interface.pet";
 import { petSearchAbleFields } from "./constant.pet";
 
 const createPet = async (data: any) => {
-  //   console.log({ data });
-
   const createPet = await prisma.pet.create({
     data,
   });
@@ -47,11 +45,6 @@ const getAllFromDB = async (
     });
   }
 
-  //   andConditions.push({
-  //     isDeleted: false,
-  //   });
-
-  //console.dir(andConditions, { depth: 'infinity' })
   const whereConditions: Prisma.PetWhereInput = { AND: andConditions };
 
   const result = await prisma.pet.findMany({
@@ -82,24 +75,6 @@ const getAllFromDB = async (
   };
 };
 
-// const getByIdFromDB = async (id: string): Promise<Admin | null> => {
-//   await prisma.admin.findUniqueOrThrow({
-//     where: {
-//       id,
-//       isDeleted: false,
-//     },
-//   });
-
-//   const result = await prisma.admin.findUnique({
-//     where: {
-//       id,
-//       isDeleted: false,
-//     },
-//   });
-
-//   return result;
-// };
-
 const updateIntoDB = async (
   id: string,
   data: Partial<TPets>
@@ -121,71 +96,8 @@ const updateIntoDB = async (
   return result;
 };
 
-// const deleteFromDB = async (id: string): Promise<Admin | null> => {
-//   await prisma.admin.findUniqueOrThrow({
-//     where: {
-//       id,
-//     },
-//   });
-
-//   const result = await prisma.$transaction(async (transactionClient) => {
-//     // delete admin
-//     const adminDeletedData = await transactionClient.admin.delete({
-//       where: {
-//         id,
-//       },
-//     });
-
-//     await transactionClient.user.delete({
-//       where: {
-//         email: adminDeletedData.email,
-//       },
-//     });
-
-//     return adminDeletedData;
-//   });
-
-//   return result;
-// };
-
-// const softDeleteFromDB = async (id: string): Promise<Admin | null> => {
-//   await prisma.admin.findUniqueOrThrow({
-//     where: {
-//       id,
-//       isDeleted: false,
-//     },
-//   });
-
-//   const result = await prisma.$transaction(async (transactionClient) => {
-//     const adminDeletedData = await transactionClient.admin.update({
-//       where: {
-//         id,
-//       },
-//       data: {
-//         isDeleted: true,
-//       },
-//     });
-
-//     await transactionClient.user.update({
-//       where: {
-//         email: adminDeletedData.email,
-//       },
-//       data: {
-//         status: UserStatus.DELETED,
-//       },
-//     });
-
-//     return adminDeletedData;
-//   });
-
-//   return result;
-// };
-
 export const PetService = {
   createPet,
   getAllFromDB,
-  //   getByIdFromDB,
   updateIntoDB,
-  //   deleteFromDB,
-  //   softDeleteFromDB,
 };
