@@ -7,25 +7,19 @@ const update = z.object({
   }),
 });
 
-const createPetValidationSchema = z.object({
+const createAdoptionValidationSchema = z.object({
   body: z.object({
     id: z.string().optional(),
-    name: z.string(),
-    species: z.string(),
-    breed: z.string(),
-    age: z.number().int(),
-    size: z.string(),
-    location: z.string(),
-    description: z.string(),
-    temperament: z.string(),
-    medicalHistory: z.string(),
-    adoptionRequirements: z.string(),
+    userId: z.string().optional(),
+    petId: z.string(),
+    status: z.enum(["PENDING", "REJECTED", "APPROVED"]).default("PENDING"),
+    petOwnershipExperience: z.string(),
     createdAt: z.string().optional(),
     updatedAt: z.string().optional(),
   }),
 });
 
-const updatePetValidationSchema = z.object({
+const updateAdoptionValidationSchema = z.object({
   body: z.object({
     name: z.string().optional(),
     species: z.string().optional(),
@@ -42,7 +36,7 @@ const updatePetValidationSchema = z.object({
   }),
 });
 
-export const petValidationSchemas = {
-  createPetValidationSchema,
-  updatePetValidationSchema,
+export const adoptionValidationSchemas = {
+  createAdoptionValidationSchema,
+  updateAdoptionValidationSchema,
 };

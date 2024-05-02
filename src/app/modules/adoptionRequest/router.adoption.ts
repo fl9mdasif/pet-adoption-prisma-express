@@ -1,18 +1,18 @@
 import express from "express";
 import auth from "../../middlewares/auth";
-import { PetController } from "./controller.pet";
+import { AdoptionController } from "./controller.adoption";
 import validateRequest from "../../middlewares/validateRequest";
-import { petValidationSchemas } from "./validation.pet";
+import { adoptionValidationSchemas } from "./validation.adoption";
 
 const router = express.Router();
 
-router.get("/", PetController.getAllFromDB);
+router.get("/", AdoptionController.getAllFromDB);
 
 router.post(
   "/",
-  //   auth("SUPER_ADMIN", "ADMIN"),
-  validateRequest(petValidationSchemas.createPetValidationSchema),
-  PetController.createPet
+  auth(),
+  validateRequest(adoptionValidationSchemas.createAdoptionValidationSchema),
+  AdoptionController.createAdoptionRequest
 );
 // router.get(
 //   "/:id",
@@ -23,8 +23,8 @@ router.post(
 router.patch(
   "/:id",
   // auth(UserRole.SUPER_ADMIN, UserRole.ADMIN),
-  validateRequest(petValidationSchemas.updatePetValidationSchema),
-  PetController.updateIntoDB
+  validateRequest(adoptionValidationSchemas.updateAdoptionValidationSchema),
+  AdoptionController.updateIntoDB
 );
 
 // // router.delete(
@@ -39,4 +39,4 @@ router.patch(
 // //   PetController.softDeleteFromDB
 // // );
 
-export const petRoutes = router;
+export const adoptionRoutes = router;

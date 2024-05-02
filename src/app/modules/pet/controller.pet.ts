@@ -50,48 +50,22 @@ const getAllFromDB = catchAsync(async (req, res, next) => {
 //   });
 // });
 
-// const updateIntoDB = catchAsync(async (req, res, next) => {
-//   const { id } = req.params;
+const updateIntoDB = catchAsync(async (req, res, next) => {
+  const { id } = req.params;
 
-//   const result = await AdminService.updateIntoDB(id, req.body);
-//   sendResponse(res, {
-//     statusCode: httpStatus.OK,
-//     success: true,
-//     message: "Admin data updated!",
-//     data: result,
-//   });
-// });
-
-// const deleteFromDB = catchAsync(async (req, res, next) => {
-//   const { id } = req.params;
-
-//   const result = await AdminService.deleteFromDB(id);
-//   sendResponse(res, {
-//     statusCode: httpStatus.OK,
-//     success: true,
-//     message: "Admin data deleted!",
-//     data: result,
-//   });
-// });
-
-// const softDeleteFromDB = catchAsync(async (req, res, next) => {
-//   const { id } = req.params;
-
-//   const result = await AdminService.softDeleteFromDB(id);
-//   sendResponse(res, {
-//     statusCode: httpStatus.OK,
-//     success: true,
-//     message: "Admin data deleted!",
-//     data: result,
-//   });
-// });
+  const result = await PetService.updateIntoDB(id, req.body);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "User profile updated successfully",
+    data: result,
+  });
+});
 
 export const PetController = {
   getAllFromDB,
-  //   getByIdFromDB,
-  //   updateIntoDB,
-  //   deleteFromDB,
-  //   softDeleteFromDB,
+
+  updateIntoDB,
 
   createPet,
 };

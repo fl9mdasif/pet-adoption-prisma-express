@@ -2,7 +2,7 @@ import { Prisma } from "@prisma/client";
 import { paginationHelper } from "../../../helpers/paginationHelper";
 import prisma from "../../../shared/prisma";
 import { TPaginationOptions } from "../../interface/pagination";
-import { TPetFilterableFields } from "./interface.pet";
+import { TPetFilterableFields, TPets } from "./interface.pet";
 import { petSearchAbleFields } from "./constant.pet";
 
 const createPet = async (data: any) => {
@@ -100,26 +100,26 @@ const getAllFromDB = async (
 //   return result;
 // };
 
-// const updateIntoDB = async (
-//   id: string,
-//   data: Partial<Admin>
-// ): Promise<Admin> => {
-//   await prisma.admin.findUniqueOrThrow({
-//     where: {
-//       id,
-//       isDeleted: false,
-//     },
-//   });
+const updateIntoDB = async (
+  id: string,
+  data: Partial<TPets>
+): Promise<TPets> => {
+  await prisma.pet.findUniqueOrThrow({
+    where: {
+      id,
+      // isDeleted: false,
+    },
+  });
 
-//   const result = await prisma.admin.update({
-//     where: {
-//       id,
-//     },
-//     data,
-//   });
+  const result = await prisma.pet.update({
+    where: {
+      id,
+    },
+    data,
+  });
 
-//   return result;
-// };
+  return result;
+};
 
 // const deleteFromDB = async (id: string): Promise<Admin | null> => {
 //   await prisma.admin.findUniqueOrThrow({
@@ -185,7 +185,7 @@ export const PetService = {
   createPet,
   getAllFromDB,
   //   getByIdFromDB,
-  //   updateIntoDB,
+  updateIntoDB,
   //   deleteFromDB,
   //   softDeleteFromDB,
 };
