@@ -16,7 +16,7 @@ router.post(
 );
 
 router.patch(
-  "/:id",
+  "/:petId",
   auth(),
   validateRequest(petValidationSchemas.updatePetValidationSchema),
   PetController.updateIntoDB

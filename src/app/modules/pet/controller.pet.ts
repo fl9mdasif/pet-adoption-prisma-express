@@ -9,7 +9,7 @@ import { petFilterableFields } from "./constant.pet";
 const createPet = catchAsync(async (req: Request, res: Response) => {
   const result = await PetService.createPet(req.body);
   sendResponse(res, {
-    statusCode: httpStatus.OK,
+    statusCode: httpStatus.CREATED,
     success: true,
     message: "Pet added successfully",
     data: result,
@@ -31,9 +31,9 @@ const getAllFromDB = catchAsync(async (req, res, next) => {
 });
 
 const updateIntoDB = catchAsync(async (req, res, next) => {
-  const { id } = req.params;
+  const { petId } = req.params;
 
-  const result = await PetService.updateIntoDB(id, req.body);
+  const result = await PetService.updateIntoDB(petId, req.body);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,

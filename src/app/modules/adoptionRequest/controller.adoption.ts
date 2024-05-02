@@ -3,8 +3,6 @@ import catchAsync from "../../../shared/catchAsync";
 import { AdoptionService } from "./service.adoption";
 import sendResponse from "../../../shared/sendResponse";
 import httpStatus from "http-status";
-import pick from "../../../shared/pick";
-import { petFilterableFields } from "./constant.adoption";
 
 const createAdoptionRequest = catchAsync(
   async (req: Request & { user?: any }, res: Response) => {
@@ -32,60 +30,20 @@ const getAllFromDB = catchAsync(async (req, res, next) => {
   });
 });
 
-// const getByIdFromDB = catchAsync(async (req, res, next) => {
-//   const { id } = req.params;
-
-//   const result = await AdminService.getByIdFromDB(id);
-//   sendResponse(res, {
-//     statusCode: httpStatus.OK,
-//     success: true,
-//     message: "Admin data fetched by id!",
-//     data: result,
-//   });
-// });
-
 const updateIntoDB = catchAsync(async (req, res, next) => {
-  const { id } = req.params;
+  const { requestId } = req.params;
 
-  const result = await AdoptionService.updateIntoDB(id, req.body);
+  const result = await AdoptionService.updateIntoDB(requestId, req.body);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Pet profile updated successfully",
+    message: "Adoption request updated successfully",
     data: result,
   });
 });
 
-// const deleteFromDB = catchAsync(async (req, res, next) => {
-//   const { id } = req.params;
-
-//   const result = await AdminService.deleteFromDB(id);
-//   sendResponse(res, {
-//     statusCode: httpStatus.OK,
-//     success: true,
-//     message: "Admin data deleted!",
-//     data: result,
-//   });
-// });
-
-// const softDeleteFromDB = catchAsync(async (req, res, next) => {
-//   const { id } = req.params;
-
-//   const result = await AdminService.softDeleteFromDB(id);
-//   sendResponse(res, {
-//     statusCode: httpStatus.OK,
-//     success: true,
-//     message: "Admin data deleted!",
-//     data: result,
-//   });
-// });
-
 export const AdoptionController = {
   getAllFromDB,
-  //   getByIdFromDB,
   updateIntoDB,
-  //   deleteFromDB,
-  //   softDeleteFromDB,
-
   createAdoptionRequest,
 };

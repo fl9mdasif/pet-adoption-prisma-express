@@ -6,7 +6,7 @@ import { adoptionValidationSchemas } from "./validation.adoption";
 
 const router = express.Router();
 
-router.get("/", AdoptionController.getAllFromDB);
+router.get("/", auth(), AdoptionController.getAllFromDB);
 
 router.post(
   "/",
@@ -14,29 +14,12 @@ router.post(
   validateRequest(adoptionValidationSchemas.createAdoptionValidationSchema),
   AdoptionController.createAdoptionRequest
 );
-// router.get(
-//   "/:id",
-//   // auth(UserRole.SUPER_ADMIN, UserRole.ADMIN),
-//   PetController.getByIdFromDB
-// );
 
 router.patch(
-  "/:id",
-  // auth(UserRole.SUPER_ADMIN, UserRole.ADMIN),
+  "/:requestId",
+  auth(),
   validateRequest(adoptionValidationSchemas.updateAdoptionValidationSchema),
   AdoptionController.updateIntoDB
 );
-
-// // router.delete(
-// //   "/:id",
-// //   auth(UserRole.SUPER_ADMIN, UserRole.ADMIN),
-// //   PetController.deleteFromDB
-// // );
-
-// // router.delete(
-// //   "/soft/:id",
-// //   auth(UserRole.SUPER_ADMIN, UserRole.ADMIN),
-// //   PetController.softDeleteFromDB
-// // );
 
 export const adoptionRoutes = router;
