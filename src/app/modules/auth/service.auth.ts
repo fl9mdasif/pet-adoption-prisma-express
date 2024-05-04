@@ -8,7 +8,6 @@ const loginUser = async (payload: { email: string; password: string }) => {
   const userData = await prisma.user.findUniqueOrThrow({
     where: {
       email: payload.email,
-      // status: UserStatus.ACTIVE,
     },
   });
 
@@ -28,7 +27,6 @@ const loginUser = async (payload: { email: string; password: string }) => {
     },
     config.jwt.jwt_secret as Secret,
     config.jwt.expires_in as string
-    // "30d"
   );
   const result = {
     id: userData.id,

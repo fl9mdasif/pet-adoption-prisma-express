@@ -140,3 +140,7 @@ This project is a RESTful API for user authentication built using Node.js, Expre
 - nodemailer: Library for sending emails.
 - zod: TypeScript-first schema declaration and validation library.
 - dotenv: Zero-dependency module for loading environment variables.
+
+## [Project Documentation](https://github.com/Apollo-Level2-Web-Dev/L2-B2-Assignment-8-Full-stack/blob/main/2-Pet-Adoption-Platform.md)
+
+## [Project live Video Documentation ](https://youtu.be/H3u0fGVNBv8)

@@ -44,7 +44,6 @@ const loginUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const userData = yield prisma_1.default.user.findUniqueOrThrow({
         where: {
             email: payload.email,
-            // status: UserStatus.ACTIVE,
         },
     });
     const isCorrectPassword = yield bcrypt.compare(payload.password, userData.password);
@@ -55,9 +54,7 @@ const loginUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
         id: userData.id,
         name: userData.name,
         email: userData.email,
-    }, config_1.default.jwt.jwt_secret, config_1.default.jwt.expires_in
-    // "30d"
-    );
+    }, config_1.default.jwt.jwt_secret, config_1.default.jwt.expires_in);
     const result = {
         id: userData.id,
         name: userData.name,

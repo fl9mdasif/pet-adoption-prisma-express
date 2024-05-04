@@ -2,27 +2,58 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.petValidationSchemas = void 0;
 const zod_1 = require("zod");
-const update = zod_1.z.object({
-    body: zod_1.z.object({
-        name: zod_1.z.string().optional(),
-        contactNumber: zod_1.z.string().optional(),
-    }),
-});
 const createPetValidationSchema = zod_1.z.object({
     body: zod_1.z.object({
-        id: zod_1.z.string().optional(),
-        name: zod_1.z.string(),
-        species: zod_1.z.string(),
-        breed: zod_1.z.string(),
-        age: zod_1.z.number().int(),
-        size: zod_1.z.string(),
-        location: zod_1.z.string(),
-        description: zod_1.z.string(),
-        temperament: zod_1.z.string(),
-        medicalHistory: zod_1.z.string(),
-        adoptionRequirements: zod_1.z.string(),
-        createdAt: zod_1.z.string().optional(),
-        updatedAt: zod_1.z.string().optional(),
+        name: zod_1.z.string({
+            required_error: "name is required!",
+        }),
+        species: zod_1.z.string({
+            required_error: "species is required!",
+        }),
+        breed: zod_1.z.string({
+            required_error: "breed is required!",
+        }),
+        age: zod_1.z
+            .number({
+            required_error: "age is required!",
+        })
+            .int(),
+        size: zod_1.z.string({
+            required_error: "size is required!",
+        }),
+        location: zod_1.z.string({
+            required_error: "location is required!",
+        }),
+        description: zod_1.z
+            .string({
+            required_error: "description is required!",
+        })
+            .optional(),
+        temperament: zod_1.z
+            .string({
+            required_error: "temperament is required!",
+        })
+            .optional(),
+        medicalHistory: zod_1.z
+            .string({
+            required_error: "medicalHistory is required!",
+        })
+            .optional(),
+        adoptionRequirements: zod_1.z
+            .string({
+            required_error: "adoptionRequirements is required!",
+        })
+            .optional(),
+        createdAt: zod_1.z
+            .string({
+            required_error: "createdAt is required!",
+        })
+            .optional(),
+        updatedAt: zod_1.z
+            .string({
+            required_error: "updatedAt is required!",
+        })
+            .optional(),
     }),
 });
 const updatePetValidationSchema = zod_1.z.object({

@@ -39,14 +39,12 @@ exports.userService = void 0;
 const bcrypt = __importStar(require("bcrypt"));
 const prisma_1 = __importDefault(require("../../../shared/prisma"));
 const createUser = (data) => __awaiter(void 0, void 0, void 0, function* () {
-    // hashPassword
     const hashPassword = yield bcrypt.hash(data.password, 12);
     const userData = {
         name: data === null || data === void 0 ? void 0 : data.name,
         email: data === null || data === void 0 ? void 0 : data.email,
         password: hashPassword,
     };
-    //   console.log({ userData });
     const createUser = yield prisma_1.default.user.create({
         data: userData,
         select: {

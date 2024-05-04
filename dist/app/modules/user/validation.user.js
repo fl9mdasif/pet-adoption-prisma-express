@@ -22,24 +22,31 @@ const isUniqueEmail = (field) => __awaiter(void 0, void 0, void 0, function* () 
             OR: [{ email: field }, { name: field }],
         },
     });
-    // Return false if email already exists, true otherwise
     return !existingUser;
 });
 const UserRegSchema = zod_1.z.object({
     body: zod_1.z.object({
         id: zod_1.z.string().optional(),
-        name: zod_1.z.string().refine((name) => __awaiter(void 0, void 0, void 0, function* () {
+        name: zod_1.z
+            .string({
+            required_error: "Email is required!",
+        })
+            .refine((name) => __awaiter(void 0, void 0, void 0, function* () {
             // Check uniqueness of email
             return yield isUniqueEmail(name);
         }), { message: "Name already exists" }),
         email: zod_1.z
-            .string()
+            .string({
+            required_error: "Valid Email is required!",
+        })
             .email()
             .refine((email) => __awaiter(void 0, void 0, void 0, function* () {
             // Check uniqueness of email
             return yield isUniqueEmail(email);
         }), { message: "Email already exists" }),
-        password: zod_1.z.string(),
+        password: zod_1.z.string({
+            required_error: "password is required!",
+        }),
         createdAt: zod_1.z.string().optional(),
         updatedAt: zod_1.z.string().optional(),
     }),

@@ -2,7 +2,6 @@ import * as bcrypt from "bcrypt";
 import prisma from "../../../shared/prisma";
 
 const createUser = async (data: any) => {
-  // hashPassword
   const hashPassword = await bcrypt.hash(data.password, 12);
 
   const userData = {
@@ -10,8 +9,6 @@ const createUser = async (data: any) => {
     email: data?.email,
     password: hashPassword,
   };
-
-  //   console.log({ userData });
 
   const createUser = await prisma.user.create({
     data: userData,
