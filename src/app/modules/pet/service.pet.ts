@@ -84,7 +84,6 @@ const updateIntoDB = async (
   await prisma.pet.findUniqueOrThrow({
     where: {
       id,
-      // isDeleted: false,
     },
   });
 

@@ -10,22 +10,27 @@ const isUniqueEmail = async (field: string) => {
     },
   });
 
-  // Return false if email already exists, true otherwise
   return !existingUser;
 };
 
 const UserRegSchema = z.object({
   body: z.object({
     id: z.string().optional(),
-    name: z.string().refine(
-      async (name) => {
-        // Check uniqueness of email
-        return await isUniqueEmail(name);
-      },
-      { message: "Name already exists" }
-    ),
+    name: z
+      .string({
+        required_error: "Email is required!",
+      })
+      .refine(
+        async (name) => {
+          // Check uniqueness of email
+          return await isUniqueEmail(name);
+        },
+        { message: "Name already exists" }
+      ),
     email: z
-      .string()
+      .string({
+        required_error: "Valid Email is required!",
+      })
       .email()
       .refine(
         async (email) => {
@@ -34,7 +39,9 @@ const UserRegSchema = z.object({
         },
         { message: "Email already exists" }
       ),
-    password: z.string(),
+    password: z.string({
+      required_error: "password is required!",
+    }),
     createdAt: z.string().optional(),
     updatedAt: z.string().optional(),
   }),

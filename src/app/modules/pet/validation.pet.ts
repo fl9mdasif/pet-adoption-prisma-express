@@ -1,27 +1,57 @@
 import { z } from "zod";
 
-const update = z.object({
-  body: z.object({
-    name: z.string().optional(),
-    contactNumber: z.string().optional(),
-  }),
-});
-
 const createPetValidationSchema = z.object({
   body: z.object({
-    id: z.string().optional(),
-    name: z.string(),
-    species: z.string(),
-    breed: z.string(),
-    age: z.number().int(),
-    size: z.string(),
-    location: z.string(),
-    description: z.string(),
-    temperament: z.string(),
-    medicalHistory: z.string(),
-    adoptionRequirements: z.string(),
-    createdAt: z.string().optional(),
-    updatedAt: z.string().optional(),
+    name: z.string({
+      required_error: "name is required!",
+    }),
+    species: z.string({
+      required_error: "species is required!",
+    }),
+    breed: z.string({
+      required_error: "breed is required!",
+    }),
+    age: z
+      .number({
+        required_error: "age is required!",
+      })
+      .int(),
+    size: z.string({
+      required_error: "size is required!",
+    }),
+    location: z.string({
+      required_error: "location is required!",
+    }),
+    description: z
+      .string({
+        required_error: "description is required!",
+      })
+      .optional(),
+    temperament: z
+      .string({
+        required_error: "temperament is required!",
+      })
+      .optional(),
+    medicalHistory: z
+      .string({
+        required_error: "medicalHistory is required!",
+      })
+      .optional(),
+    adoptionRequirements: z
+      .string({
+        required_error: "adoptionRequirements is required!",
+      })
+      .optional(),
+    createdAt: z
+      .string({
+        required_error: "createdAt is required!",
+      })
+      .optional(),
+    updatedAt: z
+      .string({
+        required_error: "updatedAt is required!",
+      })
+      .optional(),
   }),
 });
 

@@ -1,19 +1,16 @@
 import { z } from "zod";
 
-const update = z.object({
-  body: z.object({
-    name: z.string().optional(),
-    contactNumber: z.string().optional(),
-  }),
-});
-
 const createAdoptionValidationSchema = z.object({
   body: z.object({
     id: z.string().optional(),
     userId: z.string().optional(),
-    petId: z.string(),
+    petId: z.string({
+      required_error: "petId is required!",
+    }),
     status: z.enum(["PENDING", "REJECTED", "APPROVED"]).default("PENDING"),
-    petOwnershipExperience: z.string(),
+    petOwnershipExperience: z.string({
+      required_error: "petOwnershipExperience is required!",
+    }),
     createdAt: z.string().optional(),
     updatedAt: z.string().optional(),
   }),
@@ -21,7 +18,7 @@ const createAdoptionValidationSchema = z.object({
 
 const updateAdoptionValidationSchema = z.object({
   body: z.object({
-    status: z.enum(["PENDING", "REJECTED", "APPROVED"]),
+    status: z.enum(["PENDING", "REJECTED", "APPROVED"]).optional(),
     petOwnershipExperience: z.string().optional(),
   }),
 });
