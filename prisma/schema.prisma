@@ -60,11 +60,7 @@ model AdoptionRequest {
   @@map("adoption-requests")
 }
 
-enum UserRoles {
-  SUPER_ADMIN
-  ADMIN
-  USER
-}
+
 
 enum AdoptionStatus {
   PENDING
@@ -72,8 +68,4 @@ enum AdoptionStatus {
   REJECTED
 }
 
-enum UserStatus {
-  ACTIVE
-  BLOCKED
-  DELETED
-}
+ 

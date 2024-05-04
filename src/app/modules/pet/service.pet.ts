@@ -20,14 +20,16 @@ const getAllFromDB = async (
   const { page, limit, skip } = paginationHelper.calculatePagination(options);
   const { searchTerm, ...filterData } = params;
 
+  console.log("f", filterData);
+
   const andConditions: Prisma.PetWhereInput[] = [];
 
-  //console.log(filterData);
-  if (params.searchTerm) {
+  console.log(filterData);
+  if (searchTerm) {
     andConditions.push({
       OR: petSearchAbleFields.map((field) => ({
         [field]: {
-          contains: params.searchTerm,
+          contains: searchTerm,
           mode: "insensitive",
         },
       })),

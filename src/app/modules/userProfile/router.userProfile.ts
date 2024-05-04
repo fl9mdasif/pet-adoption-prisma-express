@@ -7,6 +7,7 @@ import validateRequest from "../../middlewares/validateRequest";
 const router = express.Router();
 
 router.get("/", auth(), UserProfileController.getMyProfile);
+
 router.patch(
   "/",
   auth(),
