@@ -36,12 +36,13 @@ const createPet = (data) => __awaiter(void 0, void 0, void 0, function* () {
 const getAllFromDB = (params, options) => __awaiter(void 0, void 0, void 0, function* () {
     const { page, limit, skip } = paginationHelper_1.paginationHelper.calculatePagination(options);
     const { searchTerm } = params, filterData = __rest(params, ["searchTerm"]);
-    console.log("f", filterData);
+    // console.log("s", searchTerm, "f: ", filterData);
     const andConditions = [];
-    console.log(filterData);
     if (searchTerm) {
         andConditions.push({
-            OR: constant_pet_1.petSearchAbleFields.map((field) => ({
+            OR: constant_pet_1.petSearchAbleFields
+                .filter((field) => field !== "age")
+                .map((field) => ({
                 [field]: {
                     contains: searchTerm,
                     mode: "insensitive",
@@ -51,15 +52,28 @@ const getAllFromDB = (params, options) => __awaiter(void 0, void 0, void 0, func
     }
     if (Object.keys(filterData).length > 0) {
         andConditions.push({
-            AND: Object.keys(filterData).map((key) => ({
-                [key]: {
-                    equals: filterData[key],
-                    mode: "insensitive",
-                },
-            })),
+            AND: Object.keys(filterData).map((key) => {
+                if (key === "age") {
+                    const ageValue = parseInt(filterData[key], 10);
+                    if (!isNaN(ageValue)) {
+                        return { [key]: { equals: ageValue } }; // Numeric fields
+                    }
+                    else {
+                        throw new Error("Invalid age value provided");
+                    }
+                }
+                else {
+                    return {
+                        [key]: {
+                            equals: filterData[key],
+                            mode: "insensitive",
+                        },
+                    };
+                }
+            }),
         });
     }
-    const whereConditions = { AND: andConditions };
+    const whereConditions = andConditions.length > 0 ? { AND: andConditions } : {};
     const result = yield prisma_1.default.pet.findMany({
         where: whereConditions,
         skip,

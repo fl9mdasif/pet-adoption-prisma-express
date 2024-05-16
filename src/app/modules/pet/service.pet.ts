@@ -13,41 +13,51 @@ const createPet = async (data: any) => {
   return createPet;
 };
 
-const getAllFromDB = async (
-  params: TPetFilterableFields,
-  options: TPaginationOptions
-) => {
+const getAllFromDB = async (params: any, options: TPaginationOptions) => {
   const { page, limit, skip } = paginationHelper.calculatePagination(options);
   const { searchTerm, ...filterData } = params;
 
-  console.log("f", filterData);
+  // console.log("s", searchTerm, "f: ", filterData);
 
   const andConditions: Prisma.PetWhereInput[] = [];
 
-  console.log(filterData);
   if (searchTerm) {
     andConditions.push({
-      OR: petSearchAbleFields.map((field) => ({
-        [field]: {
-          contains: searchTerm,
-          mode: "insensitive",
-        },
-      })),
+      OR: petSearchAbleFields
+        .filter((field) => field !== "age")
+        .map((field) => ({
+          [field]: {
+            contains: searchTerm,
+            mode: "insensitive",
+          },
+        })),
     });
   }
 
   if (Object.keys(filterData).length > 0) {
     andConditions.push({
-      AND: Object.keys(filterData).map((key) => ({
-        [key]: {
-          equals: (filterData as any)[key],
-          mode: "insensitive",
-        },
-      })),
+      AND: Object.keys(filterData).map((key) => {
+        if (key === "age") {
+          const ageValue = parseInt(filterData[key], 10);
+          if (!isNaN(ageValue)) {
+            return { [key]: { equals: ageValue } }; // Numeric fields
+          } else {
+            throw new Error("Invalid age value provided");
+          }
+        } else {
+          return {
+            [key]: {
+              equals: filterData[key] as string | number,
+              mode: "insensitive",
+            },
+          };
+        }
+      }),
     });
   }
 
-  const whereConditions: Prisma.PetWhereInput = { AND: andConditions };
+  const whereConditions: Prisma.PetWhereInput =
+    andConditions.length > 0 ? { AND: andConditions } : {};
 
   const result = await prisma.pet.findMany({
     where: whereConditions,
