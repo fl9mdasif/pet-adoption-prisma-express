@@ -17,8 +17,8 @@ This project is a RESTful API for user authentication built using Node.js, Expre
 
 ```json
 {
-  "name": "John khan",
-  "email": "johnkhan@example.com",
+  "name": "rahat khan",
+  "email": "rahat-khan@gmail.com",
   "password": "123456"
 }
 ```
@@ -30,7 +30,7 @@ This project is a RESTful API for user authentication built using Node.js, Expre
 
 ```json
 {
-  "email": "johnkhan@example.com",
+  "email": "rahat-khan@gmail.com",
   "password": "123456"
 }
 ```
@@ -124,8 +124,8 @@ This project is a RESTful API for user authentication built using Node.js, Expre
 
 ```json
 {
-  "name": "John Doe",
-  "email": "john.doe@example.com"
+  "name": "Rahat Khan Asif",
+  "email": "rahat-khan@gmail.com"
 }
 ```
 
