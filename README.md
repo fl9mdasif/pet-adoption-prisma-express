@@ -4,6 +4,11 @@
 
 This project is a RESTful API for user authentication built using Node.js, Express.js, and Prisma. It allows users to register, login, and authenticate securely, crud pet, adoption request, Passwords are hashed using bcrypt for enhanced security. etc
 
+## wanna run the project?
+
+- clone the project directory
+- npm run start-dev
+
 ## Live URL
 
 [Restful API's Live server link](https://pet-adaption-prisma8.vercel.app)
