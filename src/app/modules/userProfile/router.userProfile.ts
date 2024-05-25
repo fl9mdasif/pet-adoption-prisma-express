@@ -12,6 +12,11 @@ router.get(
   auth(UserRole.ADMIN, UserRole.USER),
   UserProfileController.getMyProfile
 );
+router.get(
+  "/my-adoptions",
+  auth(UserRole.ADMIN, UserRole.USER),
+  UserProfileController.myAdoptions
+);
 
 router.patch(
   "/",

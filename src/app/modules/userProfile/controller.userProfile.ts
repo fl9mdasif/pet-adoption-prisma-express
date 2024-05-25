@@ -7,14 +7,27 @@ import { UserProfileService } from "./service.userProfile";
 const getMyProfile = catchAsync(
   async (req: Request & { user?: any }, res: Response, next: NextFunction) => {
     const id = req.user?.id;
-    console.log(id);
+
     const result = await UserProfileService.getMyProfile(id);
 
-    console.log("controller", result);
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
       message: "User profile retrieved successfully",
+      data: result,
+    });
+  }
+);
+const myAdoptions = catchAsync(
+  async (req: Request & { user?: any }, res: Response, next: NextFunction) => {
+    const id = req.user?.id;
+
+    const result = await UserProfileService.myAdoptions(id);
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "My Adoption request retrieved successfully",
       data: result,
     });
   }
@@ -37,4 +50,5 @@ const updateMyProfile = catchAsync(
 export const UserProfileController = {
   getMyProfile,
   updateMyProfile,
+  myAdoptions,
 };

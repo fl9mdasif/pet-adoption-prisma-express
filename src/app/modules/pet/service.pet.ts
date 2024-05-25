@@ -21,6 +21,11 @@ const getAllFromDB = async (params: any, options: TPaginationOptions) => {
 
   const andConditions: Prisma.PetWhereInput[] = [];
 
+  // Adding static condition for adoptionStatus
+  // andConditions.push({
+  //   // petAdoptionStatus: false,
+  // });
+
   if (searchTerm) {
     andConditions.push({
       OR: petSearchAbleFields
@@ -61,6 +66,7 @@ const getAllFromDB = async (params: any, options: TPaginationOptions) => {
 
   const result = await prisma.pet.findMany({
     where: whereConditions,
+    // adoptionStatus: false,
     skip,
     take: limit,
     orderBy:

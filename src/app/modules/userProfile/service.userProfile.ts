@@ -26,6 +26,19 @@ const getMyProfile = async (id: string): Promise<TUserData | null> => {
   return result;
 };
 
+// my adoptions
+const myAdoptions = async (id: string): Promise<any | null> => {
+  const res = await prisma.adoptionRequest.findMany({
+    where: {
+      userId: id,
+    },
+  });
+
+  // console.log(res);
+
+  return res;
+};
+
 const updateMyProfile = async (
   id: string,
   data: Partial<TUserData>
@@ -58,4 +71,5 @@ const updateMyProfile = async (
 export const UserProfileService = {
   getMyProfile,
   updateMyProfile,
+  myAdoptions,
 };
