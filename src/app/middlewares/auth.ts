@@ -6,8 +6,7 @@ import { jwtHelpers } from "../../helpers/jwtHelpers";
 import { Secret } from "jsonwebtoken";
 import config from "../../config";
 
-// const auth = (...roles: string[]) => {
-const auth = () => {
+const auth = (...roles: string[]) => {
   return async (
     req: Request & { user?: any },
     res: Response,
@@ -24,12 +23,13 @@ const auth = () => {
         token,
         config.jwt.jwt_secret as Secret
       );
+      // console.log("veri", verifiedUser);
 
       req.user = verifiedUser;
 
-      // if (roles.length && !roles.includes(verifiedUser.role)) {
-      //   throw new ApiError(httpStatus.FORBIDDEN, "Forbidden!");
-      // }
+      if (roles.length && !roles.includes(verifiedUser.role)) {
+        throw new ApiError(httpStatus.FORBIDDEN, "Forbidden!");
+      }
       next();
     } catch (err) {
       next(err);

@@ -4,6 +4,16 @@ import sendResponse from "../../../shared/sendResponse";
 import { Request, Response } from "express";
 import { AuthServices } from "./service.auth";
 
+const createUser = catchAsync(async (req: Request, res: Response) => {
+  const result = await AuthServices.createUser(req.body);
+  sendResponse(res, {
+    statusCode: httpStatus.CREATED,
+    success: true,
+    message: "User Created successfully!",
+    data: result,
+  });
+});
+
 const loginUser = catchAsync(async (req: Request, res: Response) => {
   const result = await AuthServices.loginUser(req.body);
 
@@ -20,6 +30,23 @@ const loginUser = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const changePassword = catchAsync(
+  async (req: Request & { user?: any }, res: Response) => {
+    const user = req.user;
+    // console.log(user);
+
+    const result = await AuthServices.changePassword(user, req.body);
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Password Changed successfully",
+      data: result,
+    });
+  }
+);
 export const AuthController = {
   loginUser,
+  changePassword,
+  createUser,
 };

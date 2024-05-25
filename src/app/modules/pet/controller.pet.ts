@@ -43,10 +43,22 @@ const updateIntoDB = catchAsync(async (req, res, next) => {
   });
 });
 
+const deleteFromDB = catchAsync(async (req, res, next) => {
+  const { petId } = req.params;
+
+  const result = await PetService.deleteFromDB(petId);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Pet deleted successfully",
+    data: result,
+  });
+});
+
 export const PetController = {
   getAllFromDB,
 
   updateIntoDB,
-
+  deleteFromDB,
   createPet,
 };

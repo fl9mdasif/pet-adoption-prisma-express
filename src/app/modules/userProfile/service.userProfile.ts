@@ -1,5 +1,5 @@
 import prisma from "../../../shared/prisma";
-import { TUserData } from "../user/interface.user";
+import { TUserData } from "./interface.userProfile";
 
 const getMyProfile = async (id: string): Promise<TUserData | null> => {
   await prisma.user.findUniqueOrThrow({
@@ -16,6 +16,8 @@ const getMyProfile = async (id: string): Promise<TUserData | null> => {
       id: true,
       name: true,
       email: true,
+      role: true,
+      status: true,
       createdAt: true,
       updatedAt: true,
     },
@@ -43,6 +45,8 @@ const updateMyProfile = async (
       id: true,
       name: true,
       email: true,
+      role: true,
+      status: true,
       createdAt: true,
       updatedAt: true,
     },

@@ -42,8 +42,21 @@ const updateIntoDB = catchAsync(async (req, res, next) => {
   });
 });
 
+const deleteIntoDB = catchAsync(async (req, res, next) => {
+  const { requestId } = req.params;
+
+  const result = await AdoptionService.deleteIntoDB(requestId);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Adoption request deleted successfully",
+    data: result,
+  });
+});
+
 export const AdoptionController = {
+  createAdoptionRequest,
   getAllFromDB,
   updateIntoDB,
-  createAdoptionRequest,
+  deleteIntoDB,
 };

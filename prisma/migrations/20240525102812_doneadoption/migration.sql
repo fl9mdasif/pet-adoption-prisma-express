@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "adoption-requests" ALTER COLUMN "petName" DROP DEFAULT,
+ALTER COLUMN "photo" DROP NOT NULL,
+ALTER COLUMN "photo" SET DATA TYPE TEXT;

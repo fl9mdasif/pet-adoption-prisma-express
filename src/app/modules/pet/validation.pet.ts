@@ -37,6 +37,8 @@ const createPetValidationSchema = z.object({
         required_error: "medicalHistory is required!",
       })
       .optional(),
+    healthStatus: z.enum(["VACCINATED", "EUTERED "]),
+
     adoptionRequirements: z
       .string({
         required_error: "adoptionRequirements is required!",
@@ -67,6 +69,7 @@ const updatePetValidationSchema = z.object({
     temperament: z.string().optional(),
     medicalHistory: z.string().optional(),
     adoptionRequirements: z.string().optional(),
+    healthStatus: z.enum(["VACCINATED", "EUTERED "]),
     createdAt: z.string().optional(),
     updatedAt: z.string().optional(),
   }),

@@ -1,25 +1,14 @@
-/*
-  Warnings:
+-- CreateEnum
+CREATE TYPE "AdoptionStatus" AS ENUM ('PENDING', 'APPROVED', 'REJECTED');
 
-  - You are about to drop the `AdoptionRequest` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `Pet` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `User` table. If the table is not empty, all the data it contains will be lost.
+-- CreateEnum
+CREATE TYPE "UserStatus" AS ENUM ('ACTIVE', 'BLOCKED');
 
-*/
--- DropForeignKey
-ALTER TABLE "AdoptionRequest" DROP CONSTRAINT "AdoptionRequest_petId_fkey";
+-- CreateEnum
+CREATE TYPE "UserRole" AS ENUM ('ADMIN', 'USER');
 
--- DropForeignKey
-ALTER TABLE "AdoptionRequest" DROP CONSTRAINT "AdoptionRequest_userId_fkey";
-
--- DropTable
-DROP TABLE "AdoptionRequest";
-
--- DropTable
-DROP TABLE "Pet";
-
--- DropTable
-DROP TABLE "User";
+-- CreateEnum
+CREATE TYPE "Pet_HealthStatus" AS ENUM ('VACCINATED', 'EUTERED');
 
 -- CreateTable
 CREATE TABLE "users" (
@@ -27,6 +16,8 @@ CREATE TABLE "users" (
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
+    "role" "UserRole" NOT NULL DEFAULT 'USER',
+    "status" "UserStatus" NOT NULL DEFAULT 'ACTIVE',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -41,6 +32,8 @@ CREATE TABLE "pets" (
     "breed" TEXT NOT NULL,
     "age" INTEGER NOT NULL,
     "size" TEXT NOT NULL,
+    "photo" TEXT[],
+    "healthStatus" "Pet_HealthStatus" NOT NULL DEFAULT 'VACCINATED',
     "location" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "temperament" TEXT NOT NULL,

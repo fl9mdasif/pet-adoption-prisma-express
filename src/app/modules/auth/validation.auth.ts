@@ -42,6 +42,8 @@ const UserRegSchema = z.object({
     password: z.string({
       required_error: "password is required!",
     }),
+    role: z.enum(["USER", "ADMIN"]).optional(),
+    status: z.enum(["ACTIVE", "BLOCKED"]).optional(),
     createdAt: z.string().optional(),
     updatedAt: z.string().optional(),
   }),

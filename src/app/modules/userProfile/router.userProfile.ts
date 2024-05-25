@@ -3,14 +3,19 @@ import auth from "../../middlewares/auth";
 import { UserProfileController } from "./controller.userProfile";
 import { userProfileUpdateSchema } from "./validation.userProfile";
 import validateRequest from "../../middlewares/validateRequest";
+import { UserRole } from "@prisma/client";
 
 const router = express.Router();
 
-router.get("/", auth(), UserProfileController.getMyProfile);
+router.get(
+  "/",
+  auth(UserRole.ADMIN, UserRole.USER),
+  UserProfileController.getMyProfile
+);
 
 router.patch(
   "/",
-  auth(),
+  auth(UserRole.ADMIN, UserRole.USER),
   validateRequest(userProfileUpdateSchema),
   UserProfileController.updateMyProfile
 );

@@ -7,13 +7,27 @@ const createAdoptionRequest = async (data: any, user: any) => {
     },
   });
 
-  const result = {
+  const pet = await prisma.pet.findUniqueOrThrow({
+    where: {
+      id: data.petId,
+    },
+  });
+
+  // console.log("pet", pet);
+
+  const adoptionRequestData = {
     ...data,
-    userId: user.id,
+    petName: pet?.name,
+    photo: pet?.photo[1],
+    userId: user?.id,
+    requesterName: user?.name,
+    requesterEmail: user?.email,
+    requesterContactNo: data?.requesterContactNo,
   };
+  console.log(adoptionRequestData);
 
   const createAdoptionRequest = await prisma.adoptionRequest.create({
-    data: result,
+    data: adoptionRequestData,
   });
 
   return createAdoptionRequest;
@@ -47,8 +61,25 @@ const updateIntoDB = async (
   return result;
 };
 
+const deleteIntoDB = async (id: string) => {
+  await prisma.adoptionRequest.findUniqueOrThrow({
+    where: {
+      id,
+    },
+  });
+
+  const result = await prisma.adoptionRequest.delete({
+    where: {
+      id,
+    },
+  });
+
+  return result;
+};
+
 export const AdoptionService = {
   createAdoptionRequest,
   getAllFromDB,
   updateIntoDB,
+  deleteIntoDB,
 };

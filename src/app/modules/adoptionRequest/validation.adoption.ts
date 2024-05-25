@@ -11,6 +11,9 @@ const createAdoptionValidationSchema = z.object({
     petOwnershipExperience: z.string({
       required_error: "petOwnershipExperience is required!",
     }),
+    requesterContactNo: z.string().optional(),
+    requesterName: z.string().optional(),
+    requesterEmail: z.string().optional(),
     createdAt: z.string().optional(),
     updatedAt: z.string().optional(),
   }),
@@ -19,6 +22,7 @@ const createAdoptionValidationSchema = z.object({
 const updateAdoptionValidationSchema = z.object({
   body: z.object({
     status: z.enum(["PENDING", "REJECTED", "APPROVED"]).optional(),
+    requesterContactNo: z.string().optional(),
     petOwnershipExperience: z.string().optional(),
   }),
 });
