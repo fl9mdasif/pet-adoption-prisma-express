@@ -3,6 +3,7 @@ export const petSearchAbleFields: string[] = [
   "breed",
   "age",
   "size",
+  "name",
 ];
 
 export const petFilterableFields: string[] = [

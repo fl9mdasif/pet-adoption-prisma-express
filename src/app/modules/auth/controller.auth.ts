@@ -5,6 +5,8 @@ import { Request, Response } from "express";
 import { AuthServices } from "./service.auth";
 
 const createUser = catchAsync(async (req: Request, res: Response) => {
+  console.log(req.body);
+
   const result = await AuthServices.createUser(req.body);
   sendResponse(res, {
     statusCode: httpStatus.CREATED,

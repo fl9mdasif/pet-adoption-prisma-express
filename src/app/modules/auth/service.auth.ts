@@ -7,14 +7,17 @@ import { UserRole, UserStatus } from "@prisma/client";
 
 //  create user
 const createUser = async (data: any) => {
+  console.log("ser", data);
   const hashPassword = await bcrypt.hash(data.password, 12);
 
-  console.log(data);
+  // console.log(data);
 
   const userData = {
     name: data?.name,
     email: data?.email,
+    contactNumber: data?.contactNumber,
     password: hashPassword,
+    address: data.address,
     role: data?.role || UserRole.USER,
     status: data.status || UserStatus.ACTIVE,
   };

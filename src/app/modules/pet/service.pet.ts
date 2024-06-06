@@ -28,39 +28,23 @@ const getAllFromDB = async (params: any, options: TPaginationOptions) => {
 
   if (searchTerm) {
     andConditions.push({
-      OR: petSearchAbleFields
-        .filter((field) => field !== "age")
-        .map((field) => ({
-          [field]: {
-            contains: searchTerm,
-            mode: "insensitive",
-          },
-        })),
+      OR: petSearchAbleFields.map((field) => ({
+        [field]: {
+          contains: searchTerm,
+          mode: "insensitive",
+        },
+      })),
     });
   }
 
   if (Object.keys(filterData).length > 0) {
-    andConditions.push({
-      AND: Object.keys(filterData).map((key) => {
-        if (key === "age") {
-          const ageValue = parseInt(filterData[key], 10);
-          if (!isNaN(ageValue)) {
-            return { [key]: { equals: ageValue } }; // Numeric fields
-          } else {
-            throw new Error("Invalid age value provided");
-          }
-        } else {
-          return {
-            [key]: {
-              equals: filterData[key] as string | number,
-              mode: "insensitive",
-            },
-          };
-        }
-      }),
-    });
+    const filterConditions = Object.keys(filterData).map((key) => ({
+      [key]: {
+        equals: (filterData as any)[key],
+      },
+    }));
+    andConditions.push(...filterConditions);
   }
-
   const whereConditions: Prisma.PetWhereInput =
     andConditions.length > 0 ? { AND: andConditions } : {};
 

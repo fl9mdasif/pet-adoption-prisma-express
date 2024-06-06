@@ -18,7 +18,7 @@ const createAdoptionRequest = async (data: any, user: any) => {
   const adoptionRequestData = {
     ...data,
     petName: pet?.name,
-    photo: pet?.photo[1],
+    photo: pet?.photo[0],
     userId: user?.id,
     requesterName: user?.name,
     requesterEmail: user?.email,

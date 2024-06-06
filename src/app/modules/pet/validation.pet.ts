@@ -11,11 +11,9 @@ const createPetValidationSchema = z.object({
     breed: z.string({
       required_error: "breed is required!",
     }),
-    age: z
-      .number({
-        required_error: "age is required!",
-      })
-      .int(),
+    age: z.string({
+      required_error: "age is required!",
+    }),
     size: z.string({
       required_error: "size is required!",
     }),
@@ -37,7 +35,7 @@ const createPetValidationSchema = z.object({
         required_error: "medicalHistory is required!",
       })
       .optional(),
-    healthStatus: z.enum(["VACCINATED", "EUTERED "]),
+    healthStatus: z.enum(["VACCINATED", "EUTERED"]),
 
     adoptionRequirements: z
       .string({
@@ -62,14 +60,14 @@ const updatePetValidationSchema = z.object({
     name: z.string().optional(),
     species: z.string().optional(),
     breed: z.string().optional(),
-    age: z.number().int().optional(),
+    age: z.string().optional(),
     size: z.string().optional(),
     location: z.string().optional(),
     description: z.string().optional(),
     temperament: z.string().optional(),
     medicalHistory: z.string().optional(),
     adoptionRequirements: z.string().optional(),
-    healthStatus: z.enum(["VACCINATED", "EUTERED "]),
+    healthStatus: z.enum(["VACCINATED", "EUTERED"]).optional(),
     createdAt: z.string().optional(),
     updatedAt: z.string().optional(),
   }),

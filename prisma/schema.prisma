@@ -17,9 +17,11 @@ model User {
   id              String            @id @default(uuid())
   name            String
   email           String            @unique
+  contactNumber   String             
   password        String
   role            UserRole         @default(USER)
   status          UserStatus       @default(ACTIVE)
+  address         String
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
   AdoptionRequest AdoptionRequest[]
@@ -32,9 +34,9 @@ model Pet {
   name                 String
   species              String
   breed                String
-  age                  Int
+  age                  String
   size                 String
-  photo                String[]
+  photo                String
   healthStatus        Pet_HealthStatus @default(VACCINATED)
   location             String
   description          String
