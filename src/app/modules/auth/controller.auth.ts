@@ -38,10 +38,10 @@ const changePassword = catchAsync(
     // console.log(user);
 
     const result = await AuthServices.changePassword(user, req.body);
-
+    // console.log("con", result);
     sendResponse(res, {
-      statusCode: httpStatus.OK,
       success: true,
+      statusCode: httpStatus.OK,
       message: "Password Changed successfully",
       data: result,
     });

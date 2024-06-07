@@ -7,10 +7,8 @@ import { UserRole, UserStatus } from "@prisma/client";
 
 //  create user
 const createUser = async (data: any) => {
-  console.log("ser", data);
+  // console.log("ser", data);
   const hashPassword = await bcrypt.hash(data.password, 12);
-
-  // console.log(data);
 
   const userData = {
     name: data?.name,
@@ -43,6 +41,7 @@ const loginUser = async (payload: { email: string; password: string }) => {
   const userData = await prisma.user.findUniqueOrThrow({
     where: {
       email: payload.email,
+      status: UserStatus.ACTIVE,
     },
   });
 
@@ -64,6 +63,7 @@ const loginUser = async (payload: { email: string; password: string }) => {
     config.jwt.jwt_secret as Secret,
     config.jwt.expires_in as string
   );
+
   const result = {
     id: userData.id,
     name: userData.name,
@@ -94,7 +94,7 @@ const changePassword = async (user: any, payload: any) => {
 
   const hashedPassword: string = await bcrypt.hash(payload.newPassword, 12);
 
-  await prisma.user.update({
+  const result = await prisma.user.update({
     where: {
       email: userData.email,
     },
@@ -104,9 +104,8 @@ const changePassword = async (user: any, payload: any) => {
     },
   });
 
-  return {
-    message: "Password changed successfully!",
-  };
+  console.log("ser", result);
+  return result;
 };
 
 export const AuthServices = {

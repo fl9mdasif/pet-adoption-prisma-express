@@ -6,5 +6,7 @@ export const userProfileUpdateSchema = z.object({
     email: z.string().email().optional(),
     contactNumber: z.string().optional(),
     address: z.string().optional(),
+    status: z.string().optional(),
+    role: z.string().optional(),
   }),
 });

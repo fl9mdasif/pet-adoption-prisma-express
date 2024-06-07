@@ -7,17 +7,42 @@ import { UserRole } from "@prisma/client";
 
 const router = express.Router();
 
+// update user role, status by admin
+router.patch(
+  "/:userId",
+  auth(UserRole.ADMIN),
+  validateRequest(userProfileUpdateSchema),
+  UserProfileController.updateUserByAdmin
+);
+
+// delete user
+router.delete(
+  "/:userId",
+  auth(UserRole.ADMIN),
+  UserProfileController.deleteUserFromDB
+);
+
+// get me
 router.get(
-  "/",
+  "/me",
   auth(UserRole.ADMIN, UserRole.USER),
   UserProfileController.getMyProfile
 );
+
+//get all user
+router.get(
+  "/get-all",
+  auth(UserRole.ADMIN, UserRole.USER),
+  UserProfileController.getAllUser
+);
+
 router.get(
   "/my-adoptions",
   auth(UserRole.ADMIN, UserRole.USER),
   UserProfileController.myAdoptions
 );
 
+// update profile via user
 router.patch(
   "/",
   auth(UserRole.ADMIN, UserRole.USER),
