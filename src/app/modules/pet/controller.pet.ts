@@ -43,6 +43,20 @@ const updateIntoDB = catchAsync(async (req, res, next) => {
   });
 });
 
+const getSinglePet = catchAsync(async (req, res, next) => {
+  // console.log('params',req.params);
+
+  const { petId } = req.params;
+
+  const result = await PetService.getSinglePet(petId);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Single pet retrieved successfully",
+    data: result,
+  });
+});
+
 const deleteFromDB = catchAsync(async (req, res, next) => {
   const { petId } = req.params;
 
@@ -57,7 +71,7 @@ const deleteFromDB = catchAsync(async (req, res, next) => {
 
 export const PetController = {
   getAllFromDB,
-
+  getSinglePet,
   updateIntoDB,
   deleteFromDB,
   createPet,

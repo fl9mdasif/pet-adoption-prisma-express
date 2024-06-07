@@ -7,6 +7,20 @@ import { UserRole } from "@prisma/client";
 
 const router = express.Router();
 
+router.patch(
+  "/:petId",
+  auth(UserRole.ADMIN),
+  validateRequest(petValidationSchemas.updatePetValidationSchema),
+  PetController.updateIntoDB
+);
+router.get(
+  "/:petId",
+  auth(UserRole.ADMIN, UserRole.ADMIN),
+  PetController.getSinglePet
+);
+
+router.delete("/:petId", auth(UserRole.ADMIN), PetController.deleteFromDB);
+
 router.get("/", PetController.getAllFromDB);
 
 router.post(
@@ -15,16 +29,5 @@ router.post(
   validateRequest(petValidationSchemas.createPetValidationSchema),
   PetController.createPet
 );
-
-router.patch(
-  "/:petId",
-  auth(UserRole.ADMIN),
-  validateRequest(petValidationSchemas.updatePetValidationSchema),
-  PetController.updateIntoDB
-);
-
-router.delete("/:petId",
- auth(UserRole.ADMIN),
- PetController.deleteFromDB);
 
 export const petRoutes = router;

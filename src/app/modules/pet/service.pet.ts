@@ -97,6 +97,16 @@ const updateIntoDB = async (
   return result;
 };
 
+const getSinglePet = async (id: string) => {
+  const result = await prisma.pet.findUniqueOrThrow({
+    where: {
+      id,
+    },
+  });
+
+  return result;
+};
+
 const deleteFromDB = async (id: string) => {
   await prisma.pet.findUniqueOrThrow({
     where: {
@@ -118,4 +128,5 @@ export const PetService = {
   getAllFromDB,
   deleteFromDB,
   updateIntoDB,
+  getSinglePet,
 };
