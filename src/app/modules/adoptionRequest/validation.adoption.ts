@@ -11,6 +11,7 @@ const createAdoptionValidationSchema = z.object({
     petOwnershipExperience: z.string({
       required_error: "petOwnershipExperience is required!",
     }),
+    petLocation: z.string().optional(),
     requesterContactNo: z.string().optional(),
     requesterName: z.string().optional(),
     requesterEmail: z.string().optional(),

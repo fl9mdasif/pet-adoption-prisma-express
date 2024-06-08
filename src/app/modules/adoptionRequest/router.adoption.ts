@@ -7,19 +7,6 @@ import { UserRole } from "@prisma/client";
 
 const router = express.Router();
 
-router.get(
-  "/",
-  auth(UserRole.ADMIN, UserRole.USER),
-  AdoptionController.getAllFromDB
-);
-
-router.post(
-  "/",
-  auth(UserRole.ADMIN, UserRole.USER),
-  validateRequest(adoptionValidationSchemas.createAdoptionValidationSchema),
-  AdoptionController.createAdoptionRequest
-);
-
 router.patch(
   "/:requestId",
   auth(UserRole.ADMIN),
@@ -32,4 +19,16 @@ router.delete(
   AdoptionController.deleteIntoDB
 );
 
+router.get(
+  "/",
+  auth(UserRole.ADMIN, UserRole.USER),
+  AdoptionController.getAllFromDB
+);
+
+router.post(
+  "/",
+  auth(UserRole.ADMIN, UserRole.USER),
+  validateRequest(adoptionValidationSchemas.createAdoptionValidationSchema),
+  AdoptionController.createAdoptionRequest
+);
 export const adoptionRoutes = router;

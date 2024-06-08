@@ -15,7 +15,7 @@ router.patch(
 );
 router.get(
   "/:petId",
-  auth(UserRole.ADMIN, UserRole.ADMIN),
+  auth(UserRole.USER, UserRole.ADMIN),
   PetController.getSinglePet
 );
 

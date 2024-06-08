@@ -1,30 +1,26 @@
 import prisma from "../../../shared/prisma";
 
-const createAdoptionRequest = async (data: any, user: any) => {
-  await prisma.pet.findFirstOrThrow({
-    where: {
-      id: data.petId,
-    },
-  });
-
+const createAdoptionRequest = async (payload: any, user: any) => {
   const pet = await prisma.pet.findUniqueOrThrow({
     where: {
-      id: data.petId,
+      id: payload.petId,
     },
   });
 
   // console.log("pet", pet);
 
   const adoptionRequestData = {
-    ...data,
+    ...payload,
     petName: pet?.name,
-    photo: pet?.photo[0],
+    petLocation: pet?.location,
+    photo: pet?.photo,
     userId: user?.id,
     requesterName: user?.name,
     requesterEmail: user?.email,
-    requesterContactNo: data?.requesterContactNo,
+
+    // requesterContactNo: payload?.requesterContactNo,
   };
-  console.log(adoptionRequestData);
+  console.log("adop", adoptionRequestData);
 
   const createAdoptionRequest = await prisma.adoptionRequest.create({
     data: adoptionRequestData,

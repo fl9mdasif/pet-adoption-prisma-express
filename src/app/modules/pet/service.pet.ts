@@ -21,11 +21,6 @@ const getAllFromDB = async (params: any, options: TPaginationOptions) => {
 
   const andConditions: Prisma.PetWhereInput[] = [];
 
-  // Adding static condition for adoptionStatus
-  // andConditions.push({
-  //   // petAdoptionStatus: false,
-  // });
-
   if (searchTerm) {
     andConditions.push({
       OR: petSearchAbleFields.map((field) => ({

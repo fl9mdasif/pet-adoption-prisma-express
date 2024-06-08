@@ -57,6 +57,7 @@ model AdoptionRequest {
   userId                 String
   petId                  String
   petName                String         
+  petLocation          String
   photo                  String?
   requesterName          String
   requesterContactNo     String
