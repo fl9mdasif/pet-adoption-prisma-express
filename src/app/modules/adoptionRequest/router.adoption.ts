@@ -15,7 +15,7 @@ router.patch(
 );
 router.delete(
   "/:requestId",
-  auth(UserRole.ADMIN),
+  auth(UserRole.ADMIN, UserRole.USER),
   AdoptionController.deleteIntoDB
 );
 
