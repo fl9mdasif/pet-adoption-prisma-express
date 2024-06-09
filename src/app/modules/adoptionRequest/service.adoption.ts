@@ -17,10 +17,7 @@ const createAdoptionRequest = async (payload: any, user: any) => {
     userId: user?.id,
     requesterName: user?.name,
     requesterEmail: user?.email,
-
-    // requesterContactNo: payload?.requesterContactNo,
   };
-  console.log("adop", adoptionRequestData);
 
   const createAdoptionRequest = await prisma.adoptionRequest.create({
     data: adoptionRequestData,
@@ -39,6 +36,7 @@ const getAllFromDB = async () => {
 
 const updateIntoDB = async (
   id: string,
+  petId: string,
   data: { status: "PENDING" | "REJECTED" | "APPROVED" }
 ) => {
   await prisma.adoptionRequest.findUniqueOrThrow({
@@ -47,30 +45,56 @@ const updateIntoDB = async (
     },
   });
 
-  const result = await prisma.adoptionRequest.update({
-    where: {
-      id,
-    },
-    data,
-  });
+  await prisma.$transaction(async (transactionClient) => {
+    const updateAdoptionStatus = await transactionClient.adoptionRequest.update(
+      {
+        where: { id },
+        data,
+      }
+    );
 
-  return result;
+    // update the pet adoption status
+    if (data.status === "APPROVED") {
+      await transactionClient.pet.update({
+        where: {
+          id: petId,
+        },
+        data: {
+          petAdoptionStatus: true,
+        },
+      });
+    }
+
+    return updateAdoptionStatus;
+  });
 };
 
-const deleteIntoDB = async (id: string) => {
+const deleteIntoDB = async (id: string, petId: string) => {
   await prisma.adoptionRequest.findUniqueOrThrow({
     where: {
       id,
     },
   });
 
-  const result = await prisma.adoptionRequest.delete({
-    where: {
-      id,
-    },
-  });
+  await prisma.$transaction(async (transactionClient) => {
+    const updateAdoptionStatus = await transactionClient.adoptionRequest.delete(
+      {
+        where: { id },
+      }
+    );
 
-  return result;
+    // update the pet adoption status
+    await transactionClient.pet.update({
+      where: {
+        id: petId,
+      },
+      data: {
+        petAdoptionStatus: false,
+      },
+    });
+
+    return updateAdoptionStatus;
+  });
 };
 
 export const AdoptionService = {

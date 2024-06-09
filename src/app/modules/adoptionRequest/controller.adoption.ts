@@ -31,9 +31,9 @@ const getAllFromDB = catchAsync(async (req, res, next) => {
 });
 
 const updateIntoDB = catchAsync(async (req, res, next) => {
-  const { requestId } = req.params;
+  const { requestId, petId } = req.params;
 
-  const result = await AdoptionService.updateIntoDB(requestId, req.body);
+  const result = await AdoptionService.updateIntoDB(requestId, petId, req.body);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -43,9 +43,9 @@ const updateIntoDB = catchAsync(async (req, res, next) => {
 });
 
 const deleteIntoDB = catchAsync(async (req, res, next) => {
-  const { requestId } = req.params;
+  const { requestId, petId } = req.params;
 
-  const result = await AdoptionService.deleteIntoDB(requestId);
+  const result = await AdoptionService.deleteIntoDB(requestId, petId);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,

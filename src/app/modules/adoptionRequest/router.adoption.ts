@@ -8,13 +8,13 @@ import { UserRole } from "@prisma/client";
 const router = express.Router();
 
 router.patch(
-  "/:requestId",
+  "/:requestId/:petId",
   auth(UserRole.ADMIN),
   validateRequest(adoptionValidationSchemas.updateAdoptionValidationSchema),
   AdoptionController.updateIntoDB
 );
 router.delete(
-  "/:requestId",
+  "/:requestId/:petId",
   auth(UserRole.ADMIN, UserRole.USER),
   AdoptionController.deleteIntoDB
 );
